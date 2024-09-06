@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widgets/pages/text_field_page/widgets/chat_app_text_field.dart';
+import 'package:flutter_widgets/pages/text_field_page/widgets/message_text_field.dart';
 
 /*
 할일
@@ -8,24 +9,66 @@ import 'package:flutter_widgets/pages/text_field_page/widgets/chat_app_text_fiel
 3. 메인이랑 라우터로 연결;
 */
 
-class TextFieldPage extends StatelessWidget {
+class TextFieldPage extends StatefulWidget {
   const TextFieldPage({super.key});
+
+  @override
+  State<TextFieldPage> createState() => _TextFieldPageState();
+}
+
+class _TextFieldPageState extends State<TextFieldPage> {
+  final TextEditingController _controller = TextEditingController();
+  String text = '';
+
+  // void _sendMessage() {
+  //   setState(() {
+  //     if (_controller.text.isNotEmpty) {
+  //       text = _controller.text;
+  //       FocusScope.of(context).unfocus();
+  //       _controller.clear();
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black,
-                ),
+        appBar: AppBar(
+          title: const Text('Custom Text Field'),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                'Text: $text',
+                style: const TextStyle(fontSize: 24),
               ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                child: ChatAppTextField(),
-              ))),
-      backgroundColor: Colors.grey,
-    );
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  Container(
+                      color: const Color(0xFF181818),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 10),
+                        child: MessageTextField(
+                          controller: _controller,
+                          onPressed: () {
+                            setState(() {
+                              text = _controller.text;
+                              FocusScope.of(context).unfocus();
+                              _controller.clear();
+                            });
+                          },
+                        ),
+                      )),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }

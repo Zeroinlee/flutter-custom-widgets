@@ -17,16 +17,30 @@ import 'package:flutter/material.dart';
 class MessageTextField extends StatefulWidget {
   const MessageTextField({
     super.key,
-    this.hintText,
     required this.controller,
     required this.onPressed,
-    this.decoration,
+    this.hintText,
+    this.inputTextColor,
+    this.borderColor,
+    this.sendButtonIcon,
+    this.sendButtonStyle,
   });
 
-  final String? hintText;
   final TextEditingController controller;
   final void Function() onPressed;
-  final InputDecoration? decoration;
+
+  // 힌트 텍스트
+  final String? hintText;
+
+  // 입력 텍스트
+  final Color? inputTextColor;
+
+  // 테두리 색상
+  final Color? borderColor;
+
+  // 보내기 버튼
+  final Widget? sendButtonIcon;
+  final ButtonStyle? sendButtonStyle;
 
   @override
   State<MessageTextField> createState() => _MessageTextFieldState();
@@ -59,20 +73,24 @@ class _MessageTextFieldState extends State<MessageTextField> {
       controller: widget.controller,
       focusNode: _focusNode,
       onChanged: (value) => setState(() {}),
-      style: const TextStyle(fontSize: 16, color: Colors.white),
+      style:
+          TextStyle(fontSize: 16, color: widget.inputTextColor ?? Colors.white),
       // 입력창
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         hintText: widget.hintText ?? '메시지를 입력하세요',
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: const Color(0xffE0E0E0).withOpacity(0.5),
+            color:
+                widget.borderColor ?? const Color(0xffE0E0E0).withOpacity(0.5),
           ),
           borderRadius: BorderRadius.circular(25),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: const Color(0xffE0E0E0).withOpacity(0.5),
+            color:
+                widget.borderColor ?? const Color(0xffE0E0E0).withOpacity(0.5),
           ),
           borderRadius: BorderRadius.circular(25),
         ),
@@ -84,21 +102,25 @@ class _MessageTextFieldState extends State<MessageTextField> {
             child: Container(
               height: 30,
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Transform.rotate(
-                angle: -0.5,
-                child: IconButton(
-                  onPressed: widget.onPressed,
-                  icon: const Icon(
-                    Icons.send,
-                    color: Color(0xffE0E0E0),
-                    size: 16,
-                  ),
-                  style: IconButton.styleFrom(
-                    padding: const EdgeInsets.only(bottom: 1),
-                    shape: const CircleBorder(),
-                    backgroundColor: const Color(0xFF6601e4),
-                  ),
-                ),
+              child: IconButton(
+                onPressed: widget.onPressed,
+                // 이부분 사용자 커스텀 할수있게
+                icon: widget.sendButtonIcon ??
+                    Transform.rotate(
+                      angle: -0.5,
+                      child: const Icon(
+                        Icons.send,
+                        color: Color(0xffE0E0E0),
+                        size: 16,
+                      ),
+                    ),
+                // 이부분도 커스텀할수있게
+                style: widget.sendButtonStyle ??
+                    IconButton.styleFrom(
+                      padding: const EdgeInsets.only(bottom: 1),
+                      shape: const CircleBorder(),
+                      backgroundColor: const Color(0xFF6601e4),
+                    ),
               ),
             ),
           ),

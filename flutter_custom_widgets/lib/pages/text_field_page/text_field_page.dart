@@ -40,7 +40,7 @@ class _TextFieldPageState extends State<TextFieldPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(24),
               child: Text(
                 'Text: $text',
                 style: const TextStyle(fontSize: 24),

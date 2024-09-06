@@ -50,25 +50,27 @@ class _ChatAppTextFieldState extends State<ChatAppTextField> {
           visible: _controller.text.isNotEmpty,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 1),
-            child: Container(
+            child: SizedBox(
               height: 30,
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Transform.rotate(
-                angle: -0.5,
-                child: IconButton(
-                  onPressed: () => setState(() {
-                    _sendMessage();
-                    _controller.clear();
-                  }),
-                  icon: const Icon(
-                    Icons.send,
-                    color: Color(0xffE0E0E0),
-                    size: 16,
-                  ),
-                  style: IconButton.styleFrom(
-                    padding: const EdgeInsets.only(bottom: 1),
-                    shape: const CircleBorder(),
-                    backgroundColor: const Color(0xFF6601e4),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Transform.rotate(
+                  angle: -0.5,
+                  child: IconButton(
+                    onPressed: () => setState(() {
+                      _sendMessage();
+                      _controller.clear();
+                    }),
+                    icon: const Icon(
+                      Icons.send,
+                      color: Color(0xffE0E0E0),
+                      size: 16,
+                    ),
+                    style: IconButton.styleFrom(
+                      padding: const EdgeInsets.only(bottom: 1),
+                      shape: const CircleBorder(),
+                      backgroundColor: const Color(0xFF6601e4),
+                    ),
                   ),
                 ),
               ),

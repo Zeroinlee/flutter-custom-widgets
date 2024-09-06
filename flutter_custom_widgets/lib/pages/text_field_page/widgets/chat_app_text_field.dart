@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 
+// ignore: slash_for_doc_comments
 /*
-  첫 프로젝트에서 만든 채팅창;
-  * 해야될일
-  1. 포커스 관리;
-  
-*/
+ * 1. const 기준을 모르겠음;
+ *    좀더 공부해보기;
+ * 1-2. Container()는 왜 const가 안되는데?
+ * 2. BorderRadius 넣기
+ * 3. IconButton 상속받기;
+ *    TextField랑 IconButton이랑 이중상속 받아야할듯;
+ * 4. onChanged는 내부적으로 처리하고 싶음;
+ *    setState를 어캐집어넣지?
+ * 5. onPressed는 인스턴스화 할때 외부에서 받아오고 싶음;
+ * 
+ (일단 애니메이션 연구)
+ 텍필, 아이콘버튼
+
+
+아니면 차라리 text_field.dart를 복붙한다음에 커스텀으로 바꿔버릴까?
+
+ */
 
 class ChatAppTextField extends StatefulWidget {
-  const ChatAppTextField({super.key});
+  const ChatAppTextField({
+    super.key,
+  });
 
   @override
   State<ChatAppTextField> createState() => _ChatAppTextFieldState();

@@ -19,9 +19,10 @@ class MessageTextField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onPressed,
-    this.hintText,
-    this.inputTextSize,
-    this.inputTextColor,
+    this.focusNode,
+    this.hintText = '메시지를 입력하세요',
+    this.textSize = 16,
+    this.textColor = Colors.white,
     this.borderColor,
     this.sendButtonIcon,
     this.sendButtonStyle,
@@ -29,11 +30,12 @@ class MessageTextField extends StatefulWidget {
 
   final TextEditingController controller;
   final void Function() onPressed;
+  final FocusNode? focusNode;
 
   // Input Field
   final String? hintText;
-  final double? inputTextSize;
-  final Color? inputTextColor;
+  final double? textSize;
+  final Color? textColor;
 
   // Text Field Border
   final Color? borderColor;
@@ -47,21 +49,10 @@ class MessageTextField extends StatefulWidget {
 }
 
 class _MessageTextFieldState extends State<MessageTextField> {
-  // final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-
-  // void _sendMessage() {
-  //   setState(() {
-  //     text = _controller.text;
-  //     FocusScope.of(context).unfocus();
-  //     _controller.clear();
-  //   });
-  // }
-
   @override
   void dispose() {
     widget.controller.dispose();
-    _focusNode.dispose();
+    widget.focusNode?.dispose();
     super.dispose();
   }
 
@@ -71,16 +62,17 @@ class _MessageTextFieldState extends State<MessageTextField> {
       minLines: 1,
       maxLines: 4,
       controller: widget.controller,
-      focusNode: _focusNode,
+      focusNode: widget.focusNode,
       onChanged: (value) => setState(() {}),
       // Input Field
       style: TextStyle(
-          fontSize: widget.inputTextSize ?? 16,
-          color: widget.inputTextColor ?? Colors.white),
+        fontSize: widget.textSize,
+        color: widget.textColor,
+      ),
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        hintText: widget.hintText ?? '메시지를 입력하세요',
+        hintText: widget.hintText,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color:
@@ -104,13 +96,7 @@ class _MessageTextFieldState extends State<MessageTextField> {
               height: 30,
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: IconButton(
-                onPressed: // () {
-                    widget.onPressed,
-                // setState(() {
-                //   FocusScope.of(context).unfocus();
-                //   widget.controller.clear();
-                // });
-                //},
+                onPressed: widget.onPressed,
                 // 이부분 사용자 커스텀 할수있게
                 icon: widget.sendButtonIcon ??
                     Transform.rotate(

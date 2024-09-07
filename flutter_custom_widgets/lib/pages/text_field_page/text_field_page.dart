@@ -20,15 +20,15 @@ class _TextFieldPageState extends State<TextFieldPage> {
   final TextEditingController _controller = TextEditingController();
   String text = '';
 
-  // void _sendMessage() {
-  //   setState(() {
-  //     if (_controller.text.isNotEmpty) {
-  //       text = _controller.text;
-  //       FocusScope.of(context).unfocus();
-  //       _controller.clear();
-  //     }
-  //   });
-  // }
+  void _sendMessage() {
+    setState(() {
+      if (_controller.text.isNotEmpty) {
+        text = _controller.text;
+        FocusScope.of(context).unfocus();
+        _controller.clear();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +56,17 @@ class _TextFieldPageState extends State<TextFieldPage> {
                             vertical: 30, horizontal: 10),
                         child: MessageTextField(
                           controller: _controller,
-                          onPressed: () {
-                            setState(() {
-                              if (_controller.text.isNotEmpty) {
-                                text = _controller.text;
-                                FocusScope.of(context).unfocus();
-                                _controller.clear();
-                              }
-                            });
-                          },
+                          onPressed: _sendMessage,
+                        ),
+                      )),
+                  Container(
+                      color: const Color(0xFF181818),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 10),
+                        child: MessageTextField(
+                          controller: _controller,
+                          onPressed: _sendMessage,
                         ),
                       )),
                 ],

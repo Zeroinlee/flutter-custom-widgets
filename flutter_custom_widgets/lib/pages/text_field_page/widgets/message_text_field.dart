@@ -20,6 +20,7 @@ class MessageTextField extends StatefulWidget {
     required this.controller,
     required this.onPressed,
     this.hintText,
+    this.inputTextSize,
     this.inputTextColor,
     this.borderColor,
     this.sendButtonIcon,
@@ -29,14 +30,15 @@ class MessageTextField extends StatefulWidget {
   final TextEditingController controller;
   final void Function() onPressed;
 
-  // 입력 텍스트
+  // Input Field
   final String? hintText;
+  final double? inputTextSize;
   final Color? inputTextColor;
 
-  // 테두리
+  // Text Field Border
   final Color? borderColor;
 
-  // 보내기 버튼
+  // Send Button
   final Widget? sendButtonIcon;
   final ButtonStyle? sendButtonStyle;
 
@@ -71,12 +73,13 @@ class _MessageTextFieldState extends State<MessageTextField> {
       controller: widget.controller,
       focusNode: _focusNode,
       onChanged: (value) => setState(() {}),
-      style:
-          TextStyle(fontSize: 16, color: widget.inputTextColor ?? Colors.white),
-      // 입력창
+      // Input Field
+      style: TextStyle(
+          fontSize: widget.inputTextSize ?? 16,
+          color: widget.inputTextColor ?? Colors.white),
       decoration: InputDecoration(
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         hintText: widget.hintText ?? '메시지를 입력하세요',
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
@@ -92,7 +95,7 @@ class _MessageTextFieldState extends State<MessageTextField> {
           ),
           borderRadius: BorderRadius.circular(25),
         ),
-        // 보내기 버튼
+        // Send Button
         suffixIcon: Visibility(
           visible: widget.controller.text.isNotEmpty,
           child: Padding(
@@ -101,7 +104,13 @@ class _MessageTextFieldState extends State<MessageTextField> {
               height: 30,
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: IconButton(
-                onPressed: widget.onPressed,
+                onPressed: // () {
+                    widget.onPressed,
+                // setState(() {
+                //   FocusScope.of(context).unfocus();
+                //   widget.controller.clear();
+                // });
+                //},
                 // 이부분 사용자 커스텀 할수있게
                 icon: widget.sendButtonIcon ??
                     Transform.rotate(

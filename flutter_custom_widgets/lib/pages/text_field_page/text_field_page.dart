@@ -58,9 +58,11 @@ class _TextFieldPageState extends State<TextFieldPage> {
                           controller: _controller,
                           onPressed: () {
                             setState(() {
-                              text = _controller.text;
-                              FocusScope.of(context).unfocus();
-                              _controller.clear();
+                              if (_controller.text.isNotEmpty) {
+                                text = _controller.text;
+                                FocusScope.of(context).unfocus();
+                                _controller.clear();
+                              }
                             });
                           },
                         ),

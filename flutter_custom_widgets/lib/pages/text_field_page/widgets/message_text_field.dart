@@ -29,13 +29,11 @@ class MessageTextField extends StatefulWidget {
   final TextEditingController controller;
   final void Function() onPressed;
 
-  // 힌트 텍스트
-  final String? hintText;
-
   // 입력 텍스트
+  final String? hintText;
   final Color? inputTextColor;
 
-  // 테두리 색상
+  // 테두리
   final Color? borderColor;
 
   // 보내기 버튼

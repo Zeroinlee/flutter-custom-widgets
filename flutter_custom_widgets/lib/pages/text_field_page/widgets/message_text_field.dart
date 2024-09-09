@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
 
-// ignore: slash_for_doc_comments
-/*
- * 1. const 기준을 모르겠음;
- *    좀더 공부해보기;
- * 1-2. Container()는 왜 const가 안되는데?
- * 2. BorderRadius 넣기
- * 3. IconButton 상속받기;
- *    TextField랑 IconButton이랑 이중상속 받아야할듯;
- * 4. onChanged는 내부적으로 처리하고 싶음;
- *    setState를 어캐집어넣지?
- * 5. onPressed는 인스턴스화 할때 외부에서 받아오고 싶음;
+/*  === 09.07 이후 목표 ====
+  -> 보내기 버튼을 눌렀을때 입력정보(_controller.text)만 보내고
+  _controller, _focusNode 같은건 내부에서 완결 시키고 싶음
  */
-
-//
 class MessageTextField extends StatefulWidget {
   const MessageTextField({
     super.key,
@@ -21,11 +11,14 @@ class MessageTextField extends StatefulWidget {
     required this.onPressed,
     this.focusNode,
     this.hintText = '메시지를 입력하세요',
-    this.textSize = 16,
-    this.textColor = Colors.white,
-    this.borderColor,
-    this.sendButtonIcon,
-    this.sendButtonStyle,
+    this.textStyle = const TextStyle(
+      fontSize: 16,
+      color: Colors.white,
+    ),
+    this.borderSide = const BorderSide(
+      color: Color.fromRGBO(224, 224, 224, 0.5),
+    ),
+    this.sendButton,
   });
 
   final TextEditingController controller;
@@ -33,16 +26,14 @@ class MessageTextField extends StatefulWidget {
   final FocusNode? focusNode;
 
   // Input Field
-  final String? hintText;
-  final double? textSize;
-  final Color? textColor;
+  final String hintText;
+  final TextStyle textStyle;
 
   // Text Field Border
-  final Color? borderColor;
+  final BorderSide borderSide;
 
   // Send Button
-  final Widget? sendButtonIcon;
-  final ButtonStyle? sendButtonStyle;
+  final Widget? sendButton;
 
   @override
   State<MessageTextField> createState() => _MessageTextFieldState();
@@ -65,26 +56,17 @@ class _MessageTextFieldState extends State<MessageTextField> {
       focusNode: widget.focusNode,
       onChanged: (value) => setState(() {}),
       // Input Field
-      style: TextStyle(
-        fontSize: widget.textSize,
-        color: widget.textColor,
-      ),
+      style: widget.textStyle,
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         hintText: widget.hintText,
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color:
-                widget.borderColor ?? const Color(0xffE0E0E0).withOpacity(0.5),
-          ),
+          borderSide: widget.borderSide,
           borderRadius: BorderRadius.circular(25),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color:
-                widget.borderColor ?? const Color(0xffE0E0E0).withOpacity(0.5),
-          ),
+          borderSide: widget.borderSide,
           borderRadius: BorderRadius.circular(25),
         ),
         // Send Button
@@ -95,11 +77,11 @@ class _MessageTextFieldState extends State<MessageTextField> {
             child: Container(
               height: 30,
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: IconButton(
-                onPressed: widget.onPressed,
-                // 이부분 사용자 커스텀 할수있게
-                icon: widget.sendButtonIcon ??
-                    Transform.rotate(
+              child: widget.sendButton ??
+                  IconButton(
+                    // (수정해야될곳) 필요없지만 필요한 부분(데이터만 전송된다면 필요없어짐)
+                    onPressed: widget.onPressed,
+                    icon: Transform.rotate(
                       angle: -0.5,
                       child: const Icon(
                         Icons.send,
@@ -107,14 +89,12 @@ class _MessageTextFieldState extends State<MessageTextField> {
                         size: 16,
                       ),
                     ),
-                // 이부분도 커스텀할수있게
-                style: widget.sendButtonStyle ??
-                    IconButton.styleFrom(
+                    style: IconButton.styleFrom(
                       padding: const EdgeInsets.only(bottom: 1),
                       shape: const CircleBorder(),
                       backgroundColor: const Color(0xFF6601e4),
                     ),
-              ),
+                  ),
             ),
           ),
         ),
